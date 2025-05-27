@@ -5,7 +5,7 @@ export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/testimonials')
+    fetch('https://my-portfolio-mpvy.onrender.com/api/testimonials')
       .then(res => res.json())
       .then(data => setTestimonials(data));
   }, []);

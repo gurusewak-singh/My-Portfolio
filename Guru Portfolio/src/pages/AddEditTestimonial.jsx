@@ -10,7 +10,7 @@ export default function AddEditTestimonial() {
 
   useEffect(() => {
     if (isEdit) {
-      fetch(`http://localhost:5000/api/testimonials/${id}`)
+      fetch(`https://my-portfolio-mpvy.onrender.com/api/testimonials/${id}`)
         .then(res => res.json())
         .then(data => setTestimonial(data));
     }
@@ -19,7 +19,7 @@ export default function AddEditTestimonial() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const method = isEdit ? 'PUT' : 'POST';
-    const url = isEdit ? `http://localhost:5000/api/testimonials/${id}` : `http://localhost:5000/api/testimonials`;
+    const url = isEdit ? `https://my-portfolio-mpvy.onrender.com/api/testimonials/${id}` : `https://my-portfolio-mpvy.onrender.com/api/testimonials`;
     await fetch(url, {
       method,
       headers: {

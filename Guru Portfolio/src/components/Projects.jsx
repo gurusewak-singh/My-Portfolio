@@ -5,7 +5,7 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/projects')
+    fetch('https://my-portfolio-mpvy.onrender.com/api/projects')
       .then(res => res.json())
       .then(data => setProjects(data));
   }, []);
@@ -53,7 +53,7 @@ export default function Projects() {
             {/* Right: Project Image */}
             <div className="md:w-1/3 w-full mt-6 md:mt-0 flex justify-end">
               <img
-                src={`http://localhost:5000/uploads/${project.image}`}
+                src={`https://my-portfolio-mpvy.onrender.com/uploads/${project.image}`}
                 alt={project.title}
                 className="rounded-lg w-full md:w-[300px] object-cover"
               />

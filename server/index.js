@@ -12,7 +12,10 @@ import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ["https://my-portfolio-nu-lime-87.vercel.app","http://localhost:5173"], // allow only your frontend
+  credentials: true // if you're using cookies or authentication headers
+}));
 app.use(express.json());
 
 

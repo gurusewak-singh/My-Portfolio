@@ -7,7 +7,7 @@ export default function ManageTestimonials() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/testimonials')
+    fetch('https://my-portfolio-mpvy.onrender.com/api/testimonials')
       .then(res => res.json())
       .then(data => setTestimonials(data));
   }, []);
@@ -15,7 +15,7 @@ export default function ManageTestimonials() {
   const handleDelete = async (id) => {
   const token = localStorage.getItem('adminToken');
   if (window.confirm("Are you sure you want to delete this testimonial?")) {
-    await fetch(`http://localhost:5000/api/testimonials/${id}`, {
+    await fetch(`https://my-portfolio-mpvy.onrender.com/api/testimonials/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,

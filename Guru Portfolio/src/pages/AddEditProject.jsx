@@ -18,7 +18,7 @@ export default function AddEditProject() {
   const [imageFile, setImageFile] = useState(null);
   useEffect(() => {
     if (isEdit) {
-      fetch(`http://localhost:5000/api/projects/${id}`)
+      fetch(`https://my-portfolio-mpvy.onrender.com/api/projects/${id}`)
         .then(res => res.json())
         .then(data => {
           setProject({
@@ -42,7 +42,7 @@ export default function AddEditProject() {
   }
 
   const method = isEdit ? 'PUT' : 'POST';
-  const url = isEdit ? `http://localhost:5000/api/projects/${id}` : `http://localhost:5000/api/projects`;
+  const url = isEdit ? `https://my-portfolio-mpvy.onrender.com/api/projects/${id}` : `https://my-portfolio-mpvy.onrender.com/api/projects`;
 
   await fetch(url, {
     method,

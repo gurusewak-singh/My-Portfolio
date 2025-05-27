@@ -7,7 +7,7 @@ export default function ManageProjects() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/projects')
+    fetch('https://my-portfolio-mpvy.onrender.com/api/projects')
       .then(res => res.json())
       .then(data => setProjects(data));
   }, []);
@@ -15,7 +15,7 @@ export default function ManageProjects() {
   const handleDelete = async (id) => {
   const token = localStorage.getItem('adminToken');
   if (window.confirm("Are you sure you want to delete this project?")) {
-    await fetch(`http://localhost:5000/api/projects/${id}`, {
+    await fetch(`https://my-portfolio-mpvy.onrender.com/api/projects/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
