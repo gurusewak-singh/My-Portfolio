@@ -14,7 +14,7 @@ const skillIcons = {
   Tailwind: <SiTailwindcss size={30} color="#38BDF8" />,
   Git: <SiGit size={30} color="#F05032" />,
   TypeScript: <SiTypescript size={30} color="#3178C6" />,
-  Java: <FaCode size={30} color="#f89820" />, // Generic code icon for Java
+  Java: <FaCode size={30} color="#f89820" />,
   C: <FaCode size={30} color="#A8B9CC" />,
   "C++": <SiCplusplus size={30} color="#00599C" />,
   DSA: <FaCode size={30} color="#f97316" />
@@ -41,12 +41,26 @@ export default function Skills() {
           {skills.map((skill) => (
             <motion.div
               key={skill}
-              className="bg-[#1E1E1E] py-6 px-3 rounded-lg shadow text-center flex flex-col items-center justify-center border border-transparent hover:border-orange-500 hover:shadow-orange-500 transition duration-300"
-              whileHover={{ scale: 1.1 }}
+              className="relative overflow-hidden group bg-[#1E1E1E] py-6 px-3 rounded-lg text-center flex flex-col items-center justify-center cursor-pointer"
+              whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              {skillIcons[skill]}
-              <span className="mt-3 font-medium">{skill}</span>
+              {/* Shine overlay */}
+              <div className="absolute inset-0 pointer-events-none z-10">
+                <div className="
+                  absolute w-[120%] h-[40%]
+                  bg-orange-400/30
+                  rotate-[45deg]
+                  opacity-0
+                  group-hover:animate-[diagonal-shine_0.7s_ease-in-out_forwards]
+                " />
+              </div>
+
+              {/* Icon + Skill Name */}
+              <div className="relative z-20">
+                {skillIcons[skill]}
+                <span className="mt-3 font-medium text-white">{skill}</span>
+              </div>
             </motion.div>
           ))}
         </div>

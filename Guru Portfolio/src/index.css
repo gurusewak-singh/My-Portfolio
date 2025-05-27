@@ -2,3 +2,22 @@
 html {
   scroll-behavior: smooth;
 }
+@keyframes diagonal-shine {
+  0% {
+    transform: translate(-150%, 150%) rotate(45deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(150%, -150%) rotate(45deg);
+    opacity: 0;
+  }
+}
