@@ -1,0 +1,34 @@
+/* A_ Replaced the old import with the standard Tailwind v3 directives. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes diagonal-shine {
+  0% {
+    transform: translate(-150%, 150%) rotate(45deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(150%, -150%) rotate(45deg);
+    opacity: 0;
+  }
+}

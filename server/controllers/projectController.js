@@ -2,8 +2,27 @@ import Project from '../models/Project.js';
 
 export const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
-    res.json(projects);
+    // A_ Get page and limit from query params, with defaults
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
+    const skip = (page - 1) * limit;
+
+    // A_ Get the paginated results
+    const projects = await Project.find()
+      .sort({ createdAt: -1 }) // Optional: sort by newest first
+      .skip(skip)
+      .limit(limit);
+
+    // A_ Get the total number of documents for pagination info
+    const totalProjects = await Project.countDocuments();
+
+    // A_ Send back the projects and pagination info
+    res.json({
+      projects,
+      currentPage: page,
+      totalPages: Math.ceil(totalProjects / limit),
+      totalProjects,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -21,10 +40,10 @@ export const getProjectById = async (req, res) => {
 
 export const createProject = async (req, res) => {
   try {
-    const { title, description, techStack, link } = req.body;
-    const image = req.file?.filename; // Ensure file was uploaded
+    // A_ Add githubLink to the destructuring
+    const { title, description, techStack, link, githubLink } = req.body;
+    const image = req.file ? req.file.path : ''; 
 
-    // Defensive check: ensure techStack is a string before splitting
     const techArray = typeof techStack === 'string' ? techStack.split(',').map(s => s.trim()) : [];
 
     const newProject = new Project({
@@ -32,6 +51,7 @@ export const createProject = async (req, res) => {
       description,
       techStack: techArray,
       link,
+      githubLink, // A_ Save the new field
       image,
     });
 
@@ -45,20 +65,27 @@ export const createProject = async (req, res) => {
 
 export const updateProject = async (req, res) => {
   try {
-    const { title, description, techStack, link } = req.body;
-    const image = req.file?.filename;
+    // A_ Add githubLink to the destructuring
+    const { title, description, techStack, link, githubLink } = req.body;
+    const image = req.file ? req.file.path : undefined;
 
     const techArray = typeof techStack === 'string' ? techStack.split(',').map(s => s.trim()) : [];
+    
+    const updateData = {
+      title,
+      description,
+      techStack: techArray,
+      link,
+      githubLink, // A_ Add the new field to the update object
+    };
+    
+    if (image) {
+      updateData.image = image;
+    }
 
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
-      {
-        title,
-        description,
-        techStack: techArray,
-        link,
-        ...(image && { image }), // only update image if a new one is provided
-      },
+      updateData,
       { new: true }
     );
 
@@ -69,8 +96,6 @@ export const updateProject = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
-
 
 export const deleteProject = async (req, res) => {
   try {

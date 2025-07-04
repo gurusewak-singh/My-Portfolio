@@ -5,7 +5,10 @@ const projectSchema = new mongoose.Schema({
   description: String,
   techStack: [String],
   image: String,
-  link: String
+  link: String,
+  githubLink: String, // A_ Add this new field
+}, {
+  timestamps: true
 });
 
 export default mongoose.model('Project', projectSchema);

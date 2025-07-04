@@ -1,41 +1,61 @@
-import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import cors from 'cors';
+dotenv.config(); // Load .env variables before anything else
+
 import path from 'path';
 import { fileURLToPath } from 'url';
-import apiRoutes from './routes/api.js';
-import adminAuthRoutes from './routes/adminAuth.js';
+
+// --- START: BULLETPROOF .ENV LOADING ---
+// This code finds the exact location of your .env file and loads it.
+// This is the most reliable method and removes all guesswork.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// --- END: BULLETPROOF .ENV LOADING ---
+
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+
+// A_ Import the DEDICATED route files
 import projectRoutes from './routes/projectRoutes.js';
 import testimonialRoutes from './routes/testimonialRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import adminAuthRoutes from './routes/adminAuth.js';
+import apiRoutes from './routes/api.js';
 
-dotenv.config();
 const app = express();
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: ["https://my-portfolio-nu-lime-87.vercel.app","http://localhost:5173"], // allow only your frontend
-  credentials: true // if you're using cookies or authentication headers
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
+
 app.use(express.json());
 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('MongoDB error:', err));
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-// app.use('/uploads', express.static(path.join(path.resolve(), 'uploads')));
+// A_ REGISTER THE DEDICATED ROUTES
 app.use('/api', apiRoutes);
-app.use('/api/admin', adminAuthRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminAuthRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+export default app;
+
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+}

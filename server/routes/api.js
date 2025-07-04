@@ -1,17 +1,12 @@
 import express from 'express';
-import Project from '../models/Project.js';
-import Testimonial from '../models/Testimonial.js';
 
+// This file is now simplified. We can use it for a health check or remove it.
+// For now, let's keep it minimal to avoid conflicts.
 const router = express.Router();
 
-router.get('/projects', async (req, res) => {
-  const projects = await Project.find();
-  res.json(projects);
-});
-
-router.get('/testimonials', async (req, res) => {
-  const testimonials = await Testimonial.find();
-  res.json(testimonials);
+// A simple health check route to confirm the API is up.
+router.get('/health', (req, res) => {
+  res.json({ status: 'API is running' });
 });
 
 export default router;
