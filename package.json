@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "cloudinary": "^1.41.3",
+    "memory-cache": "^0.2.0"
+  }
+}
