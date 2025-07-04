@@ -26,6 +26,8 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://my-portfolio-frontend.vercel.app',
+  ,'https://gurusewak-portfolio.vercel.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
