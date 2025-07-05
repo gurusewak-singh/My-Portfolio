@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "Guru Portfolio/package.json",
+      "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
@@ -19,12 +19,8 @@
       "dest": "server/index.js"
     },
     {
-      "src": "/uploads/(.*)",
-      "dest": "server/uploads/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "Guru Portfolio/dist/index.html"
+      "dest": "client/dist/index.html"
     }
   ]
 }
