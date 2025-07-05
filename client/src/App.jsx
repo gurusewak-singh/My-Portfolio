@@ -24,14 +24,30 @@ function App() {
     AOS.refresh();
   }, [location.pathname]);
 
-  return (
+    return (
     <Routes>
+      {/* --- PUBLIC ROUTES --- */}
+      {/* The main portfolio site */}
       <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
-
-      <Route path="/admin" element={<AdminLogin />} />
+      
+      {/* The public-facing admin login page */}
       <Route path="/admin/login" element={<AdminLogin />} />
 
-      <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+
+      {/* --- PROTECTED ADMIN AREA --- */}
+      {/* This single route block now properly protects everything under /admin */}
+      <Route 
+        path="/admin" 
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        {/* The "index" route makes the dashboard the default page for /admin */}
+        <Route index element={<AdminDashboard />} />
+        
+        {/* All other admin pages are nested here */}
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="projects" element={<ManageProjects />} />
         <Route path="projects/new" element={<AddEditProject />} />
